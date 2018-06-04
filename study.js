@@ -119,3 +119,142 @@ var partition=function(array,left,right){
 var n = [12,21,13,16,22,17,6,30,2, 8, 10, 11,9, 5, 1, 7, 3, 4,25,14,29,18,24];
 quickSort(n,0,n.length-1);
 console.log(n);
+
+
+
+var birth=1991;
+var obj = {
+   
+    birth: 1990,
+    getAge: () =>{
+        console.log(this.birth)// this指向obj对象,因为它在obj中定义的
+        // var fn = () => {
+        //     console.log(this.birth);
+        // }; 
+        // return fn();
+    }
+};
+obj.getAge(); 
+
+var obj = {
+    birth: 1990,
+    getAge: function(){
+        console.log(this.birth)// this指向obj对象,因为它在obj中定义的
+        // var fn = () => {
+        //     console.log(this.birth);//this指向window，因为它在getAge箭头函数中定义的，但是函数不能当对象，this只能找window
+        // }; 
+        // return fn();
+    } 
+};
+obj.getAge(); 
+
+class Person{  
+    // 构造  
+    constructor(x,y){  
+        this.x = x;  
+        this.y = y;  
+    }  
+//不需要加function标识，不能加，分隔
+    toString(){  
+        return (this.x + "的年龄是" +this.y+"岁");  
+    }  
+} ;
+
+Object.assign(Person.prototype,{  
+    getWidth(){  
+        console.log('12');  
+    },  
+    getHeight(){  
+        console.log('24');  
+    }  
+});  
+
+console.log(Object.keys(Person.prototype));//["getWidth", "getHeight"]  
+console.log(Object.getOwnPropertyNames(Person.prototype));//["constructor", "toString", "getWidth", "getHeight"]
+
+let person = new Person('lis',8);  
+console.log(person.toString());  
+console.log(person.hasOwnProperty('x'));//true  
+console.log(person.hasOwnProperty('y'));//true  
+console.log(person.hasOwnProperty('toString'));//false  
+console.log(person.__proto__.hasOwnProperty('toString'));//true
+
+class ThisStu{  
+  
+    getName(){  
+        return this.name();  
+    }  
+  
+    name(){  
+        return '王五';  
+    }  
+  
+}  
+
+  
+//index.js  
+let thisStu = new ThisStu();  
+console.log(thisStu.getName());  
+const {getName} = thisStu;  
+//getName();  
+//Cannot read property 'name' of undefined
+
+
+class StaticMethodParent{  
+
+    constructor(){
+        this.fatherCon=function(){console.log("father构造方法")}
+    }
+    static getCommon(){  
+        return '父类的静态方法';  
+    }  
+
+    fatherOri(){console.log("father原型方法")}
+}  
+ 
+//定义静态属性和静态方法  
+class StaticMethod extends StaticMethodParent{  
+    //因为ES6明确规定，Class内部只有静态方法，没有静态属性,所以ES6在类中定义静态属性都是错误的。  
+   // static lastName = 'pcaca';//ES6错误  
+  
+    //ES6实例属性只能在constructor构造函数中定义  
+    constructor() {  
+        super();  
+        this.width = '40cm';  
+    }  
+  
+    getWidth(){  
+        return this.width;//使用的时候需要加上this  
+    }  
+  
+    //定义静态方法  
+    static getAge(){  
+        //子类可以调用父类的静态方法  
+        console.log(super.getCommon());  
+        return '获取Age的静态方法';  
+    }  
+};  
+//定义静态属性  
+StaticMethod.firstName = 'pca';  
+  
+console.log(StaticMethod.getAge());//父类的静态方法,获取Age的静态方法  
+console.log(StaticMethod.getCommon());  //父类的静态方法
+console.log(StaticMethod.firstName); //pca 
+//console.log(StaticMethod.lastName); //类里不能定义静态属性
+let staticMethod = new StaticMethod();  
+console.log(staticMethod.width);  //40cm
+console.log(staticMethod.getWidth());  //40cm
+staticMethod.fatherCon();//father构造方法
+staticMethod.fatherOri();//father原型方法
+//staticMethod.getAge();//实例对象不调用静态方法
+
+const node = {
+    loc: {
+      start: {
+        line: 1,
+        column: 5
+      }
+    }
+  };
+  
+  let { loc, loc: { start }, loc: { start: {line}  } } = node;
