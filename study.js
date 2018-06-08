@@ -258,3 +258,50 @@ const node = {
   };
   
   let { loc, loc: { start }, loc: { start: {line}  } } = node;
+
+
+  function add(a, b) {
+    return a + b;
+}
+const curry = (fn, ...arg) => {
+    let all = arg || [],
+        length = fn.length;
+    //函数参数个数，arguments.length是实际输入参数个数
+    return (...rest) => {
+        let _args = all.slice(0); //拷贝新的all，避免改动公有的all属性，导致多次调用_args.length出错
+        _args.push(...rest);
+        if (_args.length < length) {
+            //未满足函数要求个数，就接着递归调用
+            return curry.call(this, fn, ..._args);
+        } else {
+            return fn.apply(this, _args);
+        }
+    }
+}
+let add2 = curry(add, 2)
+console.log(add2(8));
+add2 = curry(add);
+console.log(add2(2, 8));
+console.log(add2(2)(8));
+let test = curry(function(a, b, c) {
+console.log(a + b + c);
+})
+test(1, 2, 3);
+test(1, 2)(3);//实际分两步调用
+test(1)(2)(3);
+
+
+var fibonacci=function(){
+    var memo=[0,1];
+    //记忆函数，避免反复计算
+    var fib=function(i){
+        var result=memo[i];
+       if(typeof result!=="number"){
+           result=fib(i-1)+fib(i-2);
+       }
+       return result;
+    }
+    return fib;
+}();
+
+console.log(fibonacci(10));
