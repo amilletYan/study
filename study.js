@@ -119,3 +119,6 @@ var partition=function(array,left,right){
 var n = [12,21,13,16,22,17,6,30,2, 8, 10, 11,9, 5, 1, 7, 3, 4,25,14,29,18,24];
 quickSort(n,0,n.length-1);
 console.log(n);
+
+var h=[1,2,3];
+h.map((item)=>{console.log("item*item")});
