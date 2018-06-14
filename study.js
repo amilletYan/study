@@ -306,14 +306,3 @@ var fibonacci=function(){
 
 console.log(fibonacci(10));
 
-
-p={
-    x:2,
-    y:3,
-}
-a={};
-c={};
-a.b=p;
-c.b=p;
-
-console.log("hello"+c.b.x)
