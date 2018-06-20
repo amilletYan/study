@@ -153,15 +153,15 @@ console.log(person.__proto__.hasOwnProperty('toString'));//true
 //3.constructor方法是类的构造函数是默认方法，通过new命令生成对象实例时，自动调用该方法。
 //一个类必须有constructor方法，如果没有显式定义，一个默认的constructor方法会被添加。所以即使你没有添加构造函数,也是有默认的构造函数的。
 //一般constructor方法默认返回实例对象this，但是也可以指定constructor方法返回一个全新的对象,让返回的实例对象不是该类的实例。
-export default class ConstructorStu{  
-    // 构造  
-    constructor() {  
-        console.log('constructor');  
-        return new Article();  
-    }  
-}  
-let cons =  new ConstructorStu();  
-cons.constructor();  //没运行
+//  class ConstructorStu{  
+//     // 构造  
+//     constructor() {  
+//         console.log('constructor');  
+//         return new Article();  
+//     }  
+// }  
+// let cons =  new ConstructorStu();  
+// cons.constructor();  //没运行
 //类的构造函数，不使用new是没法调用的,即使你使用实例对象去调用也是不行的
 
 
@@ -220,7 +220,12 @@ staticMethod.fatherOri();//father原型方法
 
 
 
-/*----解构赋值----*/
+/*----对象解构赋值----*/
+//解构赋值的规则是，只要等号右边的值不是对象或数组，就先将其转为对象
+//然后进行属性名的匹配
+let {toString: s} = 123;
+s === Number.prototype.toString // true
+
 const node = {
     loc: {
       start: {
@@ -232,6 +237,35 @@ const node = {
   
   let { loc, loc: { start }, loc: { start: {line}  } } = node;
   //loc: { start }找到loc对应的value，传给{start}，再从value里找start对应的value，传给start
+  var {x: y = 3} = {x: 5};
+y // 5
+
+
+/*----数组解构赋值----*/
+//ES6 内部使用严格相等运算符（===），判断一个位置是否有值。
+//所以，只有当一个数组成员严格等于undefined，默认值才会生效。
+let [x = 1] = [undefined];
+x // 1
+let [z = 1] = [null];
+z // null
+
+//（1）交换变量的值 [x, y] = [y, x];
+//（2）从函数返回多个值function example() {return [1, 2, 3];}let [a, b, c] = example();
+//（3）提取JSON
+// let jsonData = {
+//     id: 42,
+//     status: "OK",
+//     data: [867, 5309]
+//   };
+//   let { id, status, data: number } = jsonData;
+//   console.log(id, status, number);
+// （4）函数默认值 {asy,glo}={asy:true,glo=1},这是为函数参数指定默认值
+//下面是为变量asy和glo指定默认值
+// function adg(url, {asy = true,glo = 1} ={}) {
+//       if(asy)
+//    console.log(glo)
+//   };
+// adg(12,{glo:2});
 
 //柯里化
   function add(a, b) {
@@ -330,4 +364,56 @@ var r=object(o);
 
 
 
+//判断是否为数组
+var arr=[1,2];
+console.log(Object.prototype.toString.apply(arr)==='[object Array]');//true
+console.log(Array.prototype.toString.apply(arr));//1,2
+console.log(arr.toString());//1,2
+console.log(arr.constructor===Array);//true
 
+// 浏览器的 ES6 环境
+function f() { console.log('I am outside!'); }
+(function () {
+   //var f = undefined;
+  if (false) {
+    //块级作用域内声明的函数，行为类似于var声明的变量。如上
+    function f() { console.log('I am inside!'); }
+  }
+  //f();//TypeError: f is not a function
+}());
+
+
+// 传统上，JavaScript 只有indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。ES6 又提供了三种新方法。
+// includes()：返回布尔值，表示是否找到了参数字符串。
+// startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+// endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
+// let s = 'Hello world!';
+// s.startsWith('world', 6) // true
+// s.endsWith('Hello', 5) // true
+// s.includes('Hello', 6) // false
+// 上面代码表示，使用第二个参数n时，endsWith的行为与其他两个方法有所不同。它针对前n个字符，而其他两个方法针对从第n个位置直到字符串结束。
+
+// 1.for in适合遍历对象，for of遍历数组
+// 使用for in 也可以遍历数组，但是会存在以下问题：
+// 1).index索引为字符串型数字，不能直接进行几何运算
+// 2).遍历顺序有可能不是按照实际数组的内部顺序
+// 3).使用for in会遍历数组所有的可枚举属性，包括原型。
+// 2.for in遍历的是数组的索引（即键名），而for of遍历的是数组元素值,不包括数组的原型属性
+// 3.for in 可以遍历到myObject的原型方法method,如果不想遍历原型方法和属性的话，可以在循环内部判断一下,hasOwnPropery方法可以判断某属性是否是该对象的实例属性
+// for (var key in myObject) {
+// 　　if（myObject.hasOwnProperty(key)){
+// 　　　　console.log(key);
+// 　　}
+// }
+  
+/*Set*/
+// 1.类似于数组，但是成员的值都是唯一的，没有重复的值。
+// 2.Set 函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化。
+// const set = new Set([1, 2, 3, 4, 4]);
+// 3.向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。在 Set 内部，两个NaN是相等。两个对象总是不相等的。
+4.Array.from方法可以将 Set 结构转为数组。
+这就提供了去除数组重复成员的另一种方法。
+function dedupe(array) {
+  return Array.from(new Set(array));
+}
+dedupe([1, 1, 2, 3]) // [1, 2, 3]
