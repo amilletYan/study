@@ -395,7 +395,7 @@ function f() { console.log('I am outside!'); }
 
 // 1.for in适合遍历对象，for of遍历数组
 // 使用for in 也可以遍历数组，但是会存在以下问题：
-// 1).index索引为字符串型数字，不能直接进行几何运算
+// 1).index索引为字符串型数字，不能直接进行运算
 // 2).遍历顺序有可能不是按照实际数组的内部顺序
 // 3).使用for in会遍历数组所有的可枚举属性，包括原型。
 // 2.for in遍历的是数组的索引（即键名），而for of遍历的是数组元素值,不包括数组的原型属性
@@ -411,9 +411,17 @@ function f() { console.log('I am outside!'); }
 // 2.Set 函数可以接受一个数组（或者具有 iterable 接口的其他数据结构）作为参数，用来初始化。
 // const set = new Set([1, 2, 3, 4, 4]);
 // 3.向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值。在 Set 内部，两个NaN是相等。两个对象总是不相等的。
-4.Array.from方法可以将 Set 结构转为数组。
-这就提供了去除数组重复成员的另一种方法。
-function dedupe(array) {
-  return Array.from(new Set(array));
-}
-dedupe([1, 1, 2, 3]) // [1, 2, 3]
+// 4.Array.from方法可以将 Set 结构转为数组。
+// 这就提供了去除数组重复成员的另一种方法。
+// function dedupe(array) {
+//   return Array.from(new Set(array));
+// }
+// dedupe([1, 1, 2, 3]) // [1, 2, 3]
+
+
+// const map = new Map();
+// map.set(['a'], 555);
+// map.get(['a']) // undefined
+// 上面代码的set和get方法，表面是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined。
+// 同理，同样的值的两个实例，在 Map 结构中被视为两个键。
+
