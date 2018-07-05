@@ -94,12 +94,35 @@ heapSort(n);
 
 
 //搞清arguments,callee,caller
-arguments是函数调用时，创建的一个类似的数组但又不是数组的对象，
-并且它存储的是实际传递给函数的参数，并不局限于函数声明的参数列表
-arguments instanceof Array   false
-arguments instanceof Object  true
+// arguments是函数调用时，创建的一个类似的数组但又不是数组的对象，
+// 并且它存储的是实际传递给函数的参数，并不局限于函数声明的参数列表
+// arguments instanceof Array   false
+// arguments instanceof Object  true
+// 如同数组，arguments[0]=第一个参数
+// callee是arguments对象的一个成员，它的值为“正被执行的Function对象”。
+// caller是函数对象的一个属性，该属性保存着调用当前函数的函数。
+// 如果没有父函数，则为null。
+
+//搞清apply，call，bind
+// 主要用在js对象各方法相互调用的时候，使当前this实例指针保持一致，或者在特殊情况下需要改变this指针
+// apply：调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.apply(A, arguments);即A对象应用B对象的方法。
+// call：调用一个对象的一个方法，用另一个对象替换当前对象。例如：B.call(A, args1,args2);即A对象调用B对象的方法。
+// bind：类似call
+// 如果没有提供argArray和thisObj任何一个参数，那么Global对象将被用作thisObj，并且无法被传递任何参数。
 
 
+// 搞清slice(切片) splice(拼接) split(分裂) 
+// 1.new=old.slice[start,end):不改变原数组或字符串，返回从start到end(end可省略，默认结尾)的数组或字符串
+// 2.deleteArray=oldArray.splice(pos,n,element):改变原数组，返回被删除的项
+//   pos：要删除的第一项位置(包括)
+//   n:要删除的个数
+//   element：在pos处(前)插入的项
+// 3.Array=string.split(separator,limit)
+//   separator：一个字符串或一个正则表达式。如果separator是一个空字符，会返回单字符的数组。
+//   limit：限制被分割的片段数量
+//   var s="我爱你好吗" 
+//   var a=s.split("",3)  （Array(3) [ "我", "爱", "你" ]）
+//   var s=a.join("")  ("我爱你")
 
 
 //JSON
