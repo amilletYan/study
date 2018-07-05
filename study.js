@@ -93,6 +93,13 @@ var n=[11,12,4,5,2,7,23,15,22,6,8,112,67,18,0,79,32,45,67,13,43,53,78];
 heapSort(n);
 
 
+//搞清arguments,callee,caller
+arguments是函数调用时，创建的一个类似的数组但又不是数组的对象，
+并且它存储的是实际传递给函数的参数，并不局限于函数声明的参数列表
+arguments instanceof Array   false
+arguments instanceof Object  true
+
+
 
 
 //JSON
@@ -424,4 +431,10 @@ function f() { console.log('I am outside!'); }
 // map.get(['a']) // undefined
 // 上面代码的set和get方法，表面是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined。
 // 同理，同样的值的两个实例，在 Map 结构中被视为两个键。
+// Map 转为数组，使用扩展运算符（...）。
+// const myMap = new Map()
+//   .set(true, 7)
+//   .set({foo: 3}, ['abc']);
+// [...myMap]
+// [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
 
