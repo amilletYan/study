@@ -124,6 +124,40 @@ heapSort(n);
 //   var a=s.split("",3)  （Array(3) [ "我", "爱", "你" ]）
 //   var s=a.join("")  ("我爱你")
 
+//冒泡、捕获、阻止默认、阻止冒泡
+/* <html>
+<div id="div1">
+        div1
+    <div id="div2">
+                div2
+        <a id="div3" href="http://www.baidu.com">
+                    div3
+        </a>
+    </div>
+</div>
+<script>
+var div1 =document.getElementById('div1');
+var div2 =document.getElementById('div2');
+var div3 =document.getElementById('div3');
+    div1.addEventListener('click',function(){
+        alert('div1');
+      },false);
+    div2.addEventListener('click',function(){
+        alert('div2捕获');
+      },true);
+
+    div2.addEventListener('click',function(){
+        alert('div2冒泡');
+      },false);
+
+    //false为冒泡，默认也是冒泡
+    div3.addEventListener('click',function(e){
+        alert('div3');
+        e.stopPropagation();//阻止冒泡，没有这句：div2捕获 div3 div2冒泡 div1
+        e.preventDefault();//阻止默认，没有这句：弹窗结束后跳往百度
+      },false);
+</script>
+</html> */
 
 //JSON
 //parse把服务器传来的数据（一般为字符串）解析为javascript对象
@@ -248,6 +282,27 @@ staticMethod.fatherCon();//father构造方法
 staticMethod.fatherOri();//father原型方法
 //staticMethod.getAge();//实例对象不调用静态方法
 
+//5.get、set
+//创建一个类
+var Person = function () {
+    //属性：姓名，注意属性名与get和set的名称不能重复否则会报错
+    this._username = 'tom';
+}
+//在原型中给set和get方法
+//在原型中get和set方法的名称是一样的，方便调用
+Person.prototype = {
+    set username(name) {
+        console.log('调用username的set方法');
+        this._username = name;
+    },
+    get _username() {
+        console.log('调用了username的get方法');
+        return this._username;
+    }
+}
+var p = new Person();
+p.username = 'foo';//调用了username的set方法
+console.log(p.username);//undefined,因为get方法名称和属性同名了
 
 
 /*----对象解构赋值----*/
@@ -278,7 +333,6 @@ let [x = 1] = [undefined];
 x // 1
 let [z = 1] = [null];
 z // null
-
 //（1）交换变量的值 [x, y] = [y, x];
 //（2）从函数返回多个值function example() {return [1, 2, 3];}let [a, b, c] = example();
 //（3）提取JSON
@@ -296,6 +350,25 @@ z // null
 //    console.log(glo)
 //   };
 // adg(12,{glo:2});
+
+
+//ES6扩展运算符
+// 任何Iterator接口的对象，都可以用扩展运算符转为真正的数组。
+// 扩充：当使用for...of循环遍历某种数据结构时，该循环会自动去寻找 Iterator 接口。
+// 1. 展开运算符(spread operator)，把东西展开。可以用在array和object上
+//     let a = [1,2,3];
+//     let b = [0, ...a, 4]; // [0,1,2,3,4]
+//     let obj = { a: 1, b: 2 };
+//     let obj3 = { ...obj, a: 3 }; // { a:3, b:2 }
+// 2.剩余操作符(rest operator)，是解构的一种，意思就是把剩余的东西放到一个array里面赋值给它
+//     let a = [1,2,3];
+//     let [b, ...[c,d,e]] = a;
+//     b; // 1
+//     c; // 2
+//     d; // 3
+//     e; // undefined
+     
+    
 
 //柯里化
   function add(a, b) {
@@ -450,6 +523,8 @@ function f() { console.log('I am outside!'); }
 
 
 // const map = new Map();
+//任何具有 Iterator 接口、且每个成员都是一个双元素的数组的数据结构都可以当作Map构造函数的参数
+//const m2 = new Map([['baz', 3]]);[['baz', 3]],第一个[]是数组具有Iterator 接口，第二个[]是成员，它是双元素的数组
 // map.set(['a'], 555);
 // map.get(['a']) // undefined
 // 上面代码的set和get方法，表面是针对同一个键，但实际上这是两个值，内存地址是不一样的，因此get方法无法读取该键，返回undefined。
@@ -461,3 +536,37 @@ function f() { console.log('I am outside!'); }
 // [...myMap]
 // [ [ true, 7 ], [ { foo: 3 }, [ 'abc' ] ] ]
 
+
+// Symbol
+// 1.原始数据类型Symbol，表示独一无二的值。let s = Symbol(); typeof s// "symbol"
+//   它是 JavaScript 语言的第七种数据类型，前六种是：undefined、null、布尔值（Boolean）、字符串（String）、数值（Number）、对象（Object）。
+//   对象的属性名现在可以有两种类型，一种是原来就有的字符串
+//   另一种就是新增的 Symbol 类型。凡是属性名属于 Symbol 类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+//   这对于一个对象由多个模块构成的情况非常有用，能防止某一个键被不小心改写或覆盖。
+// 2.构造
+//   Symbol函数可以接受一个字符串作为参数，表示对 Symbol 实例的描述，主要是为了在控制台显示，或者转为字符串时，比较容易区分。
+//   let s1 = Symbol('foo'); s1.toString() // "Symbol(foo)"
+// 3.属性名遍历
+//   Symbol 作为属性名，该属性不会出现在for...in、for...of循环中，也不会被Object.keys()、Object.getOwnPropertyNames()、JSON.stringify()返回。
+//   但是，它也不是私有属性，有一个Object.getOwnPropertySymbols方法，可以获取指定对象的所有 Symbol 属性名。
+//   Object.getOwnPropertySymbols方法返回一个数组，成员是当前对象的所有用作属性名的 Symbol 值。
+// 4.Symbol.for()，Symbol.keyFor()
+//   它接受一个字符串作为参数，然后搜索有没有以该参数作为名称的 Symbol 值。
+//   如果有，就返回这个 Symbol 值，否则就新建并返回一个以该字符串为名称的 Symbol 值。
+//   Symbol.keyFor方法返回一个已登记的 Symbol 类型值的key。
+//   let s1 = Symbol.for("foo");
+//   Symbol.keyFor(s1) // "foo"
+//   let s2 = Symbol("foo");
+//   Symbol.keyFor(s2) // undefined
+// 5.Symbol.hasInstance：它是ES6提供的Symbol的一个实例（内置的 Symbol 值），用作对象的一个属性名，指向一个函数，
+//   这个函数在对象使用instanceof运算符时会调用
+//   foo instanceof Foo等同于Foo[Symbol.hasInstance](foo)
+//   class MyClass {
+//     [Symbol.hasInstance](foo) {
+//       return foo instanceof Array;
+//     }
+//   }
+//   [1, 2, 3] instanceof new MyClass() // true
+
+//Iterator
+一个数据结构只要具有Symbol.iterator属性，就可以认为是“可遍历的”，才可以使用for...of
