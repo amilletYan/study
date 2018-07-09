@@ -92,6 +92,21 @@ console.log(newArray);
 var n=[11,12,4,5,2,7,23,15,22,6,8,112,67,18,0,79,32,45,67,13,43,53,78];
 heapSort(n);
 
+//BOM、DOM
+javascript 有三部分构成
+ECMAScript(核心):描述了JS的语法和基本对象。
+文档对象模型（DOM）:处理网页内容的方法和接口,DOM是W3C 的标准； [所有浏览器公共遵守的标准]，document 是其的一个对象
+浏览器对象模型（BOM）:与浏览器交互的方法和接口,BOM是各个浏览器厂商根据DOM在各自浏览器上的实现;[表现为不同浏览器定义有差别,实现方式不同]，wiondow是其一个对象
+window：是BOM 对象，而非 js 对象；javacsript是通过访问BOM（Browser Object Model）对象来访问、控制、修改客户端(浏览器)，
+        浏览器的标签页，地址栏，搜索栏，书签栏，窗口放大还原关闭按钮，菜单栏等等
+        浏览器的右键菜单
+        document加载时的状态栏，显示http状态码等
+        滚动条scroll bar
+document：是DOM对象:body是DOM对象里的body子节点，即 <body> 标签；documentElement 是整个节点树的根节点root，即<html> 标签；
+          当浏览器下载到一个网页，通常是HTML，这个HTML就叫document（当然，这也是 DOM 树中的一个 node），document 通常是整个 DOM 树的根节点。
+          这个 document 包含了标题（document.title）、URL（document.URL）等属性，可以直接在 JS 中访问到。
+          在一个浏览器窗口中可能有多个 document，例如，通过 iframe 加载的页面，每一个都是一个 document。
+
 
 //搞清arguments,callee,caller
 arguments是函数调用时，创建的一个类似的数组但又不是数组的对象，
@@ -123,6 +138,31 @@ bind：类似call
   var s="我爱你好吗" 
   var a=s.split("",3)  （Array(3) [ "我", "爱", "你" ]）
   var s=a.join("")  ("我爱你")
+
+
+//typeof 和 instanceof
+typeof 一般只能返回如下几个结果："number"、"string"、"boolean"、"object"、"function" 和 "undefined"。
+主要用于判断数据是不是基本数据类型：String、Number、Boolean、Null、Undefined
+运算数为数字 typeof(x) == "number"
+字符串 typeof(x) == "string" 
+布尔值 typeof(x) == "boolean" 
+对象,数组和null typeof(x) == "object" 
+函数 typeof(x) == "function" 
+undefined typeof undefined=="undefined"
+
+instanceof 运算符用来测试一个对象在其原型链(__proto__)中是否存在一个构造函数的 prototype 属性。
+每个对象都有一个__proto__属性(隐式原型)，指向创建该对象的函数的prototype。
+console.log([] instanceof Array/Object);//true
+console.log({} instanceof Object);//true
+console.log(/\d/ instanceof RegExp);//true
+console.log(function(){} instanceof Function/Object);//true
+//''和1属于基本数据类型，没有原型链
+console.log('' instanceof String);//false
+console.log(1 instanceof Number);//false
+如果表达式 obj instanceof Foo 返回true，则并不意味着该表达式会永远返回ture
+因为Foo.prototype属性的值有可能会改变，改变之后的值很有可能不存在于obj的原型链上
+另外一种情况下，就是改变对象obj的原型链的情况，借助于非标准的__proto__魔法属性，是可以实现的。
+比如执行obj.__proto__ = {}之后，obj instanceof Foo就会返回false了。
 
 //冒泡、捕获、阻止默认、阻止冒泡
 /* <html>
@@ -170,10 +210,6 @@ var txt = '{ "sites" : [' +
 var obj = eval ("(" + txt + ")");//obj是javascript对象
 var obj = JSON.parse (txt);//obj是javascript对象
 var obj = eval('('+JSON.stringify(obj)+')');//obj是javascript对象
-
-
-
-
 
 
 class Person{  
@@ -485,6 +521,9 @@ function f() { console.log('I am outside!'); }
   //但是在代码块内，使用let命令声明变量之前，该变量都是不可用的，所以它是由于暂时性死区导致外面的f不可用
 }());
 
+再来说说const，const 声明的变量都会被认为是常量，意思就是它的值被设置完成后就不能再修改了。
+还有，如果const的是一个对象，对象所包含的值是可以被修改的。抽象一点儿说，就是对象所指向的地址没有变就行。
+
 var functionOne = function() {};//函数表达式，创建了一个匿名函数，然后将匿名函数赋值给一个变量
 function functionTwo() {}//函数声明（会被提升），有functionTwo.name="functionTwo"
 不同点在于functionOne只会在到达赋值的那一行才会被真正定义，而functionTwo会在包含它的函数或script脚本执行的时候马上被定义
@@ -591,7 +630,29 @@ const myMap = new Map()
           3.让Object操作都变成函数行为。某些Object操作是命令式，比如name in obj和delete obj[name]，而Reflect.has(obj, name)和Reflect.deleteProperty(obj, name)让它们变成了函数行为。
 
 //Promise
-  
+    简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
+    Promise 是一个对象，提供统一的 API，各种异步操作都可以用同样的方法进行处理。
+    有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
+    只有异步操作的结果，可以决定当前是哪一种状态，任何其他操作都无法改变这个状态
+    Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected
+    区别：如果改变已经发生了，你再对Promise对象添加回调函数（通过.then添加回调），也会立即得到这个结果。
+          事件（Event）完全不同，事件的特点是，如果你错过了它，再去监听，是得不到结果的。
+    const promise = new Promise(function(resolve, reject) {
+        // ... some code
+        if (/* 异步操作成功 */){
+            resolve(value);
+        } else {
+            reject(error);
+        }
+        });
+    函数的两个参数分别是resolve和reject。它们是两个函数，由 JavaScript 引擎提供，不用自己部署。
+    value和error两个参数会被传递到.then中对应的两个函数中
+    promise.then(function(value) {
+        // success
+      }, function(error) {
+        // failure
+      });
+    第一个回调函数是Promise对象的状态变为resolved时调用，第二个回调函数（可选）是Promise对象的状态变为rejected时调用
 
  //Symbol
 1.原始数据类型Symbol，表示独一无二的值。let s = Symbol(); typeof s// "symbol"
@@ -664,14 +725,87 @@ Iterator 的作用有三个：
     console.log(item); // 'a', 'b', 'c'
   }
   
-2.使得数据结构的成员能够按某种次序排列；
+  2.使得数据结构的成员能够按某种次序排列；
 
-3.Iterator默认使用场合
+  3.Iterator默认使用场合
   1）for...of
   2）对数组和 Set 结构进行解构赋值时
   let set = new Set().add('a').add('b').add('c');
   let [x,y] = set;// x='a'; y='b'
   let [first, ...rest] = set;// first='a'; rest=['b','c'];
   3）扩展运算符（...）只要某个数据结构部署了 Iterator 接口，就可以对它使用扩展运算符，将其转为数组。
- 
-
+  
+//Generator
+  Generator 函数是一个状态机，封装了多个内部状态。
+  执行 Generator 函数会返回一个遍历器对象，还是一个遍历器对象生成函数。
+  返回的遍历器对象，可以依次遍历 Generator 函数内部的每一个状态。
+1.与Iterator接口关系
+  可以把 Generator 赋值给对象的Symbol.iterator属性，从而使得该对象具有 Iterator 接口
+  var myIterable = {};
+  myIterable[Symbol.iterator] = function* () {
+    yield 1;
+    yield 2;
+    yield 3;
+  };
+  [...myIterable] // [1, 2, 3]
+  Generator 函数执行后，返回一个遍历器对象。该对象本身也具有Symbol.iterator属性，执行后返回自身。
+  function* gen(){}
+  var g = gen();
+  g[Symbol.iterator]() === g// true
+2.next 方法的参数
+  function* foo(x) {
+    var y = 2 * (yield (x + 1));//含有yield的语句被暂停不执行，但它的表达式会被返回
+    var z = yield (y / 3);
+    return (x + y + z);
+  }
+  var b = foo(5);
+  //第一次执行next方法，等同于启动执行 Generator 函数的内部代码
+  b.next() // { value:6, done:false }，第一次next没有上一个yield，V8 引擎直接忽略第一次使用next方法时的参数
+  b.next(12) // { value:8, done:false }，给上一个yield赋值，所以y=2*12
+  b.next(13) // { value:42, done:true }，z=13
+3.for...of 循环
+  function* foo() {
+    yield 1;
+    yield 2;
+    yield 3;
+    yield 4;
+    yield 5;
+    return 6;//不包括return返回的对象
+  }
+  for (let v of foo()) {
+    console.log(v);
+  }// 1 2 3 4 5
+4.yield* 表达式
+  如果yield表达式后面跟的是一个遍历器对象，需要在yield表达式后面加上星号，表明它返回的是一个遍历器对象
+  yield*后面的 Generator 函数（没有return语句时），等同于在 Generator 函数内部，部署一个for...of循环。
+  function* gen(){
+    yield* ["a", "b", "c"];
+  }
+  gen().next() // { value:"a", done:false }
+5.this
+  Generator函数g返回的遍历器obj，是g的实例，而且继承了g.prototype
+  但是，如果把g当作普通的构造函数，并不会生效，因为g返回的总是遍历器对象，而不是this对象。
+  function* g() {this.a="a";yield 1;}
+  g.prototype.hello = function () {return 'hi!';};
+  let obj = g();
+  obj.a;//undefined
+  obj.next();//Object { value: 1, done: false }
+  obj instanceof g // true
+  obj.hello() // 'hi!'
+  Generator 函数返回一个正常的对象实例，既可以用next方法，又可以获得正常的this,方法：
+  function* gen() {
+    this.a = 1;
+    yield this.b = 2;
+    yield this.c = 3;
+  }
+  function F() {
+    return gen.call(gen.prototype);//F返回遍历器函数，call方法将gen.prototype绑定为遍历器对象的this，这样访问f.a实际访问的是函数gen原型上的a
+  } 
+  var f = new F();
+  f.__proto__==gen.prototype//true
+  f.next();  // Object {value: 2, done: false}
+  f.next();  // Object {value: 3, done: false}
+  f.next();  // Object {value: undefined, done: true} 
+  f.a // 1
+  f.b // 2
+  f.c // 3
