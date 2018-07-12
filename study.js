@@ -164,6 +164,12 @@ console.log(1 instanceof Number);//false
 另外一种情况下，就是改变对象obj的原型链的情况，借助于非标准的__proto__魔法属性，是可以实现的。
 比如执行obj.__proto__ = {}之后，obj instanceof Foo就会返回false了。
 
+var str1 = "abc";var str2 = new String("abc");
+typeof str1  "string"
+typeof str2  "object"
+str1 instanceof String   false
+str2 instanceof String   true
+通用(str instanceof String) || (typeof str).toLowerCase() == 'string'
 //冒泡、捕获、阻止默认、阻止冒泡
 /* <html>
 <div id="div1">
@@ -809,3 +815,5 @@ Iterator 的作用有三个：
   f.a // 1
   f.b // 2
   f.c // 3
+
+  
