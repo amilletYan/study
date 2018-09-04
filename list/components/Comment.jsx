@@ -53,5 +53,6 @@ import PropTypes from 'prop-types'
         //给props的属性指定类型，不同时会给warning
         comment:PropTypes.object.isRequired
     }
+
 export default Comment
 

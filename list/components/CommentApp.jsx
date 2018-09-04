@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import CommentInput from './CommentInput.jsx'
 import CommentList from './CommentList.jsx'
+import PropTypes from 'prop-types'
 
 class CommentApp extends Component{
     constructor(){
@@ -34,7 +35,7 @@ class CommentApp extends Component{
         this.setState({comments});
       }
     }
-
+    
     render(){
         return (
             <div className="comment-app">
@@ -44,5 +45,4 @@ class CommentApp extends Component{
         )
     }
 }
-
 export default CommentApp

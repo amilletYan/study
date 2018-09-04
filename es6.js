@@ -107,6 +107,17 @@ document：是DOM对象:body是DOM对象里的body子节点，即 <body> 标签�
           这个 document 包含了标题（document.title）、URL（document.URL）等属性，可以直接在 JS 中访问到。
           在一个浏览器窗口中可能有多个 document，例如，通过 iframe 加载的页面，每一个都是一个 document。
 
+//node和element
+Node是一个基类，DOM中的Element，Text和Comment都继承于它。不仅仅就这三个(attribute_node,notation_node...)
+换句话说，Element，Text和Comment是三种特殊的Node，它们分别叫做ELEMENT_NODE,TEXT_NODE和COMMENT_NODE。
+所以我们平时使用的html上的元素，即Element，是类型为ELEMENT_NODE的Node,<p>文本</p>这只算element_node，不算text_node
+NodeList是Node的集合，ElementCollection是Element的集合。NodeList和ElementCollcetion都不是真正的数组
+childNodes      children
+parentNode      parentElement
+nextSibling     nextElementSibling
+previousSibling previousElementSibling
+
+
 
 //搞清arguments,callee,caller
 arguments是函数调用时，创建的一个类似的数组但又不是数组的对象，
