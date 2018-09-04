@@ -23,7 +23,6 @@ function combineReducers(...allReducers){
 };
 
 function titleReducer(state,action){
-    console.log("title render")
     if(!state) return {
         title:{name:"title1",color:"red"},
         content:{author:"men1",about:"love"}
@@ -42,7 +41,10 @@ function titleReducer(state,action){
 }
 
 function contentReducer(state,action){
-    console.log("content render")
+    if(!state) return {
+        title:{name:"title1",color:"red"},
+        content:{author:"men1",about:"love"}
+    };
     switch(action.type){
         case 'CONTENT':return{
             ...state,
@@ -57,8 +59,16 @@ function contentReducer(state,action){
 }
 
 function render(){
-  let state=store.getState();
-  console.log(state);
+  let newState=store.getState();
+  if(oldState!=newState){
+    if(oldState.title!=newState.title){
+        console.log("render title");
+    }
+    if(oldState.content!=newState.content){
+        console.log("render content");
+    }
+    oldState=newState;
+  }
 }
 
 
@@ -67,6 +77,12 @@ function render(){
 
 let store=new createStore(combineReducers(titleReducer,contentReducer));
 
+let oldState=store.getState();
+
 store.subscribe(render);
 
 store.dispatch({type:"TITLE",titleName:"title2"});
+
+store.dispatch({type:"TITLE",titleName:"title3"});
+
+store.dispatch({type:"CONTENT",contentAuthor:"men2"});
