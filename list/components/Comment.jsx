@@ -13,10 +13,10 @@ import PropTypes from 'prop-types'
                     let beg=Date.now();
                     let end=new Date(this.props.comment.time);
                     let duration=(beg-end)/1000;
-                    let timeString=Math.round(Math.max(duration,1))+"秒前";
-                    if(duration>60) timeString=Math.round(duration/60)+"分前";
-                    else if(duration>60*60) timeString=Math.round(duration/3600)+"小时前";
-                    else if(duration>60*60*24) timeString=Math.round(duration/(3600*24))+"天前";
+                    let timeString=Math.floor(Math.max(duration,1))+"秒前";
+                    if(duration>60) timeString=Math.floor(duration/60)+"分前";
+                    if(duration>60*60) timeString=Math.floor(duration/3600)+"小时前";
+                    if(duration>60*60*24) timeString=Math.floor(duration/(3600*24))+"天前";
                     this.setState({timeString})
                 }  
         }

@@ -34,8 +34,8 @@ module.exports={
     devtool:"source-map",
     module: {
         loaders: [
-              {test: /\.js$/, loader: "babel-loader",query: {presets: ['react','es2015']}},
-              {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015']}},
+              {test: /\.js$/, loader: "babel-loader",query: {presets: ['react','es2015','stage-3']}},
+              {test: /\.jsx$/,loader: 'babel-loader', query: {presets: ['react', 'es2015','stage-3']}},
               {test: /\.css$/, loader: "style!css"},
               {test: /\.(jpg|png|otf)$/, loader: "url?limit=8192"},
               {test: /\.scss$/, loader: "style!css!sass"}
