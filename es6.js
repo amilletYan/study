@@ -1,96 +1,4 @@
-/*----插入排序----*/
-var insertSort = function (array) {
-    var index = 1;
-    while (index < array.length) {
-        var i = index;
-        var target = array[i];
-        while (target > array[i - 1]) {
-            array[i] = array[i - 1];
-            i--;
-        }
-        array[i] = target;
-        index++;
-    }
-};
 
-var n = [9, 5, 1, 7, 3, 4, 6, 10, 2, 8, 11, 0];
-var m = n.slice(0);
-
-/*----快速排序----*/
-var quickSort=function(array,left,right){
-    if(array.length>1){
-        
-        var index=partition(array,left,right);
-        if(left<index-1){
-            quickSort(array,left,index-1);
-        }
-        if(right>index){
-            quickSort(array,index,right);
-        }
- 
-    }
- }
- 
- var partition=function(array,left,right){
-     var pivot=array[Math.floor((left+right)/2)];
-       while(left<=right){
-      
-           while(array[left]>pivot){
-               left++;
-           }
-           while(array[right]<pivot){
-               right--;
-           }
-           if(left<=right){
-               [array[left],array[right]]=[array[right],array[left]];
-               left++;
-               right--;
-               //此处一定要++--，因为若left=right，会死循环
-           }
-       }
-       //返回的left一定是right=left-1(前提pivot没有重复出现)，且[0，left)一定大于pivot,[left,length-1]小于等于pivot
-       return left;
- }
- 
- var n = [12,21,13,16,22,17,6,30,2, 8, 10, 11,9, 5, 1, 7, 3, 4,25,14,29,18,24];
- quickSort(n,0,n.length-1);
- console.log(n);
-
-//堆排序
-heapfy用来形成二叉树，从数组中间开始（注意中间特殊性），将小的放在根
-var heapfy=function(array,i){
-var left=i*2+1;
-var right=i*2+2;
-var small=i;
-var length=array.length;
-if(left<length&&array[left]<array[small]){
-small=left;
-}
-if(right<length&&array[right]<array[small]){
-small=right;
-}
-if(small!=i){
-[array[i],array[small]]=[array[small],array[i]];
-继续对交换下来的数进行比较，小的数已将放到了根部，此时small是放下来的数，需要比较它与它的叶子节点的大小
-heapfy(array,small);
-}
-}
-var heapSort=function(array){
-for(var i=Math.floor(array.length/2)-1;i>=0;i--){
-heapfy(array,i);
-}
-var length=array.length;
-var newArray=[];
-while(length>0){
-newArray.push(array[0]);//将最小的提出，末尾补上，此时需要重新构建二叉树，但不是从中间开始，因为除了第一位可能有错，其他节点都对
-[array[0],array[length-1]]=[array[length-1],array[0]];
-array=array.slice(0,--length)
-heapfy(array,0)
-}
-console.log(newArray);
-};
-var n=[11,12,4,5,2,7,23,15,22,6,8,112,67,18,0,79,32,45,67,13,43,53,78];
-heapSort(n);
 
 //BOM、DOM
 javascript 有三部分构成
@@ -182,7 +90,7 @@ str1 instanceof String   false
 str2 instanceof String   true
 通用(str instanceof String) || (typeof str).toLowerCase() == 'string'
 //冒泡、捕获、阻止默认、阻止冒泡
-/* <html>
+<html>
 <div id="div1">
         div1
     <div id="div2">
@@ -214,7 +122,7 @@ var div3 =document.getElementById('div3');
         e.preventDefault();//阻止默认，没有这句：弹窗结束后跳往百度
       },false);
 </script>
-</html> */
+</html> 
 
 //JSON
 parse把服务器传来的数据（一般为字符串）解析为javascript对象
